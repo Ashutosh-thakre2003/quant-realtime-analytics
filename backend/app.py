@@ -5,6 +5,13 @@ from backend.replay_engine import TickReplayEngine
 from backend.config import DATA_DIR
 from backend.storage import DuckDBStorage
 from backend.config import DB_PATH
+import pandas as pd
+
+from backend.analytics.hedge_ratio import compute_hedge_ratio
+from backend.analytics.spread import compute_spread
+from backend.analytics.zscore import compute_zscore
+from backend.analytics.adf import compute_adf
+from backend.analytics.correlation import compute_rolling_correlation
 
 
 app = FastAPI(
@@ -122,3 +129,44 @@ def get_bars(timeframe: str):
     df = storage.resample_ohlcv(timeframe)
     return df.to_dict(orient="records")
 
+@app.get("/analytics/pairs")
+def pair_analytics(
+    symbol_x: str,
+    symbol_y: str,
+    timeframe: str = "1m",
+    window: int = 30
+):
+    """
+    Computes full stat-arb analytics for a symbol pair.
+    """
+    df = storage.resample_ohlcv(timeframe)
+
+    df_x = df[df["symbol"] == symbol_x].set_index("bar_ts")["close"]
+    df_y = df[df["symbol"] == symbol_y].set_index("bar_ts")["close"]
+
+    hedge_result = compute_hedge_ratio(df_x, df_y)
+
+    if hedge_result["status"] != "ok":
+        return {
+            "hedge_ratio": hedge_result,
+            "adf": {"status": "skipped"},
+            "data": []
+        }
+
+    hedge_ratio = hedge_result["hedge_ratio"]
+
+    spread = compute_spread(df_x, df_y, hedge_ratio)
+    zscore = compute_zscore(spread, window)
+    corr = compute_rolling_correlation(df_x, df_y, window)
+    adf = compute_adf(spread)
+
+    result = pd.concat(
+        [spread, zscore, corr],
+        axis=1
+    ).dropna()
+
+    return {
+        "hedge_ratio": hedge_ratio,
+        "adf": adf,
+        "data": result.reset_index().to_dict(orient="records")
+    }
