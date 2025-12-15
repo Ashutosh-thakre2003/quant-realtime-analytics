@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+numpy
+duckdb
+statsmodels
+plotly
+streamlit
+python-dateutil
