@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import time
 
-API_BASE = "http://127.0.0.1:8000"
+API_BASE = "https://quant-realtime-analytics.onrender.com"
 
 # -----------------------------
 # Page config & global styling
