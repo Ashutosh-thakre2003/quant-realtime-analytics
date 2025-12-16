@@ -1,0 +1,32 @@
+ChatGPT Usage Disclosure
+ChatGPT was used as an engineering assistant during development of this project.
+
+Usage Scope
+Debugging runtime errors
+
+Designing system architecture
+
+Improving code structure and clarity
+
+Explaining statistical concepts
+
+Drafting documentation and README content
+
+UI/UX enhancement suggestions
+
+Example Prompt Categories
+“Explain this FastAPI error and how to fix it”
+
+“Design a statistical arbitrage analytics workflow”
+
+“Improve Streamlit UI professionally”
+
+“Write deployment-ready README documentation”
+
+“Explain hedge ratio and ADF test clearly”
+
+Declaration
+All code was reviewed, modified, and integrated manually.
+The final implementation, design decisions, and deployment were performed by the author.
+
+ChatGPT was used as a productivity and learning tool, not as a code generator without understanding.
