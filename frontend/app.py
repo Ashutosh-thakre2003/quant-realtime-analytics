@@ -157,7 +157,7 @@ if run:
             xaxis_rangeslider_visible=False,
             height=420,
         )
-        st.plotly_chart(fig_candle, use_container_width=True, key="ohlc_chart")
+        st.plotly_chart(fig_candle,  width="stretch", key="ohlc_chart")
 
         # Spread
         st.subheader("Spread")
@@ -170,7 +170,7 @@ if run:
                 name="Spread",
             )
         )
-        st.plotly_chart(fig_spread, use_container_width=True, key="spread_chart")
+        st.plotly_chart(fig_spread,  width="stretch", key="spread_chart")
 
         # Z-score
         st.subheader("Z-Score")
@@ -185,7 +185,7 @@ if run:
         )
         fig_z.add_hline(y=2, line_dash="dash")
         fig_z.add_hline(y=-2, line_dash="dash")
-        st.plotly_chart(fig_z, use_container_width=True, key="zscore_chart")
+        st.plotly_chart(fig_z,  width="stretch", key="zscore_chart")
 
         # Rolling Correlation
         st.subheader("Rolling Correlation")
@@ -199,7 +199,7 @@ if run:
             )
         )
         fig_corr.update_yaxes(range=[-1, 1])
-        st.plotly_chart(fig_corr, use_container_width=True, key="corr_chart")
+        st.plotly_chart(fig_corr,  width="stretch", key="corr_chart")
 
     # -----------------------------
     # Auto refresh
@@ -207,4 +207,5 @@ if run:
     if auto_refresh:
         import time
         time.sleep(refresh_sec)
-        st.experimental_rerun()
+        st.rerun()
+
